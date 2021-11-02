@@ -37,7 +37,7 @@ public class Sensor {
             }
             // Client gets best route from computer
             else{
-                System.out.println("Best route: " + msg);
+                System.out.println(msg);
             }
         }
     }

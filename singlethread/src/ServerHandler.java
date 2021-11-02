@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.*;
+import java.util.Random;
+
 
 class ServerHandler extends Thread{
 
@@ -11,7 +13,12 @@ class ServerHandler extends Thread{
         this.socket = socket;
     }
 
-    public void run(){
+    public static String getRandom(String[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+    }
+
+    public void start(){
         try{
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -31,11 +38,12 @@ class ServerHandler extends Thread{
                 }
                 // computer node sends sensor readings
                 else if(msg.contains("car")){
-                    System.out.println("hhhhh");
-                    out.println("best t7t el control");
+                    // sample sensor data: 120car&15km,80car&30km,50car&39km
+                    String[] data = msg.split(",");
+                    String bestRoute = this.getRandom(data);
+                    out.println("best path: " + bestRoute);
                 }
             }
-            out.println("Done!");
 
         }catch(Exception e){
             System.out.println(e);
